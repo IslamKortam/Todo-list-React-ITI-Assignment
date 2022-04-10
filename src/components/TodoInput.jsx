@@ -7,6 +7,9 @@ class TodoInput extends Component {
      } 
 
      addButtonHandler = () =>{
+        if(this.state.inputFieldValue == ""){
+            return
+        }
         this.props.onAddButtonPress(this.state.inputFieldValue);
         this.setState({inputFieldValue:""});
      } 

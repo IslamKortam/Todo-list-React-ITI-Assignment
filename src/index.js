@@ -10,6 +10,9 @@ import TodoItem from './components/TodoItem';
 import TodoInput from './components/TodoInput';
 import TodoApp from './components/TodoApp';
 
+
+const localStorageKey = "my-todo-app-imkortam"
+
 const onToggleCheckHandler = (item)=> {
     const newCompletedState = ! this.state.item.completed
     let newItem = {...this.props.item}
@@ -18,13 +21,18 @@ const onToggleCheckHandler = (item)=> {
 }
 
 
-//ReactDOM.render(<TodoItem onToggleCheck = {onToggleCheckHandler} item = {{id:0, title:"Sleep", completed:true, isBeingEdited:false}}  />, document.getElementById('root'))
-//ReactDOM.render(<TodoInput />, document.getElementById('root'))
+let items = JSON.parse(localStorage.getItem(localStorageKey));
+items = items || [];    //TO prevent error if no data found on local Storage
+
+var maxItemIndex = 0;
+items.forEach(item => {
+    if(item.id > maxItemIndex){
+        maxItemIndex = item.id;
+    }
+});
+
 ReactDOM.render(<TodoApp 
-                items = {[
-                    {id:0, title:"Sleep", completed:true, isBeingEdited:false},
-                    {id:2, title:"Eat", completed:false, isBeingEdited:false},
-                    {id:3, title:"Repeat", completed:true, isBeingEdited:true}
-                ]}
-                maxItemIndex = {10}
+                items = {items}
+                maxItemIndex = {maxItemIndex}
+                localStorageKey = {localStorageKey}
 />, document.getElementById('root'))
