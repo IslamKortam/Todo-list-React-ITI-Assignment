@@ -5,6 +5,7 @@ class TodoApp extends Component {
     state = { 
         items: this.props.items,
         currentItemIndex: this.props.maxItemIndex,
+        filter: -1
         //localStorageKey: this.props.localStorageKey
     } 
 
@@ -80,11 +81,28 @@ class TodoApp extends Component {
         }
     }
 
+    setFilter = (f) => {
+        this.setState({filter: f});
+    }
+
     render() { 
         return (
             <main className="container">
-                <TodoInput onAddButtonPress={this.createNewTodoItem} />
-                {this.state.items.map( item => <TodoItem item = {item} onToggleCheckBox = {this.toggleCompleteness} onDelete = {this.removeItem} onStartEditing = {this.enterEditStatus} onEndEditing = {this.endEditing} key={item.id} /> )}
+                <TodoInput onAddButtonPress={this.createNewTodoItem} setFilter = {this.setFilter} />
+                {this.state.items.map( (item) => {
+                    if(this.state.filter == 0){
+                        if(item.completed == false){
+                            return <TodoItem item = {item} onToggleCheckBox = {this.toggleCompleteness} onDelete = {this.removeItem} onStartEditing = {this.enterEditStatus} onEndEditing = {this.endEditing} key={item.id} />
+                        }
+                    }else if(this.state.filter == 1){
+                        if(item.completed == true){
+                            return <TodoItem item = {item} onToggleCheckBox = {this.toggleCompleteness} onDelete = {this.removeItem} onStartEditing = {this.enterEditStatus} onEndEditing = {this.endEditing} key={item.id} />
+                        }
+                    }else{
+                        console.log("Here");
+                        return <TodoItem item = {item} onToggleCheckBox = {this.toggleCompleteness} onDelete = {this.removeItem} onStartEditing = {this.enterEditStatus} onEndEditing = {this.endEditing} key={item.id} />
+                    }
+                } )}
             </main>
         );
     }
