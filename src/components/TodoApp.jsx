@@ -88,6 +88,9 @@ class TodoApp extends Component {
     render() { 
         return (
             <main className="container">
+                <div className='row justify-content-center'>
+                    <h1 className='col-2'>Todo List</h1>
+                </div>
                 <TodoInput onAddButtonPress={this.createNewTodoItem} setFilter = {this.setFilter} />
                 {this.state.items.map( (item) => {
                     if(this.state.filter == 0){
